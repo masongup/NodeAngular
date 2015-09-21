@@ -1,0 +1,24 @@
+{
+  "name": "NodeAngular",
+  "version": "0.0.0",
+  "authors": [
+    "Mason Gup <masongup@gmail.com>"
+  ],
+  "main": "site.js",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.5",
+    "angular-route": "~1.4.5"
+  }
+}

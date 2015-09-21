@@ -1,0 +1,11 @@
+<h2>All My Books:</h2>
+<div>
+  <a href="/book/new">New Book</a>
+</div>
+<table>
+  <tr><th>Title</th><th>Author</th></tr>
+  <tr ng-repeat="book in blc.books">
+    <td><a ng-href="/book/{{book.id}}">{{book.title}}</a></td>
+    <td>{{book.author}}</td>
+  </tr>
+</table>

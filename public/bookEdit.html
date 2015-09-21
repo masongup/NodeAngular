@@ -1,0 +1,16 @@
+<h2>{{bec.title}}</h2>
+<form name="EditForm">
+  <div>
+    <label>Title</label>
+    <input type="text" name="title" ng-model="bec.book.title" />
+  </div>
+  <div>
+    <label>Author</label>
+    <input type="text" name="author" ng-model="bec.book.author" />
+  </div>
+  <div>
+    <label>Description</label>
+    <input type="textarea" name="description" ng-model="bec.book.description" />
+  </div>
+  <button type="button" ng-click="bec.save()">Save</button>
+</form>
