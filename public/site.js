@@ -1,5 +1,6 @@
 angular.module('SiteApp', ['ngRoute'])
-  .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+  .constant('ServerUrl',  'http://localhost:3000/')
+  .config(['$routeProvider', '$locationProvider', 'ServerUrl', function($routeProvider, $locationProvider, serverUrl) {
     $locationProvider.html5Mode(true);
     $routeProvider
       .when('/', {
@@ -13,7 +14,9 @@ angular.module('SiteApp', ['ngRoute'])
         controllerAs: 'bec',
         resolve: {
           book: ['$http', '$route', function($http, $route) { 
-            return $http.get('/api/book/' + $route.current.params.bookNum);
+            return $http.get(serverUrl + 'books?id=eq.' + $route.current.params.bookNum, {
+              headers: { Prefer: 'plurality=singular' }
+            });
           }]
         }
       })
@@ -30,7 +33,9 @@ angular.module('SiteApp', ['ngRoute'])
         controllerAs: 'bc',
         resolve: {
           book: ['$http', '$route', function($http, $route) { 
-            return $http.get('/api/book/' + $route.current.params.bookNum);
+            return $http.get(serverUrl + 'books?id=eq.' + $route.current.params.bookNum, {
+              headers: { Prefer: 'plurality=singular' }
+            });
           }]
         }
       })
@@ -40,7 +45,7 @@ angular.module('SiteApp', ['ngRoute'])
         controllerAs: 'blc',
         resolve: {
           books: ['$http', function($http) {
-            return $http.get('/api/book');
+            return $http.get(serverUrl + 'books');
           }]
         }
       });
@@ -59,23 +64,26 @@ angular.module('SiteApp', ['ngRoute'])
   .controller('BookListController', ['books', function(books) {
     this.books = books.data;
   }])
-  .controller('BookEditController', ['book', '$http', '$location', function(book, $http, $location) {
+  .controller('BookEditController', ['book', '$http', '$location', 'ServerUrl', function(book, $http, $location, serverUrl) {
+      var requestOptions = {};
       if (book) {
         this.book = book.data;
         this.title = 'Edit Book';
+        requestOptions.method = 'PATCH';
+        requestOptions.url = serverUrl + 'books?id=eq.' + book.data.id;
       }
       else {
         this.title = 'New Book';
         this.book = {};
+        requestOptions.method = 'POST';
+        requestOptions.url = serverUrl + 'books';
       }
+      requestOptions.data = this.book;
       this.save = function() {
-        $http.post('/api/book', this.book)
-          .success(function(data) {
-            if (data.id) {
-              $location.url('/book/' + data.id);
-            }
-          })
-          .error(function() {
+        $http(requestOptions).then(function(data) {
+          var header = data.headers('Location');
+          if (header)
+            $location.url('/book/' + /\d+$/.exec(header)[0]);
           });
       };
   }]);
