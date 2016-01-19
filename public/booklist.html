@@ -6,6 +6,6 @@
   <tr><th>Title</th><th>Author</th></tr>
   <tr ng-repeat="book in blc.books">
     <td><a ng-href="/book/{{book.id}}">{{book.title}}</a></td>
-    <td>{{book.author}}</td>
+    <td>{{book.authors.name}}</td>
   </tr>
 </table>

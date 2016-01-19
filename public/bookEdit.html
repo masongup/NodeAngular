@@ -6,7 +6,7 @@
   </div>
   <div>
     <label>Author</label>
-    <input type="text" name="author" ng-model="bec.book.author" />
+    <select name="author" ng-model="bec.book.authors" ng-options="a.name for a in bec.authors track by a.id" ></select>
   </div>
   <div>
     <label>Description</label>
