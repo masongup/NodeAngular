@@ -53,6 +53,11 @@ angular.module('SiteApp', ['ngRoute'])
             });
           }]
         }
+      })
+      .when('/author/new', {
+        templateUrl: 'authorEdit.html',
+        controller: 'AuthorEditController',
+        controllerAs: 'aec'
       });
   }])
   .run(['$rootScope', '$location', function($rootScope, $location) {
@@ -100,4 +105,12 @@ angular.module('SiteApp', ['ngRoute'])
           }
         });
       };
+  }])
+  .controller('AuthorEditController', ['$http', '$location', 'ServerUrl', function($http, $location, serverUrl) {
+    this.author = {};
+    this.save = function() {
+      $http.post(serverUrl + 'authors', this.author).then(function() {
+        $location.url('/book');
+      });
+    };
   }]);
