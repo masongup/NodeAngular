@@ -1,0 +1,6 @@
+BEGIN;
+
+DROP TABLE books;
+DROP TABLE authors;
+
+COMMIT;
