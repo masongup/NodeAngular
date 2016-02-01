@@ -4,4 +4,4 @@
   <li>Book Author: {{bc.book.authors.name}}</li>
   <li>Book Summary: {{bc.book.description}}</li>
 </ul>
-<a ng-href="/book/{{bc.book.id}}/edit">Edit Book</a>
+<a ng-show="bc.canEdit()" ng-href="/book/{{bc.book.id}}/edit">Edit Book</a>
