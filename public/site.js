@@ -1,15 +1,22 @@
-angular.module('SiteApp', ['ngRoute'])
+angular.module('SiteApp', ['ngRoute', 'LocalStorageModule'])
   .constant('ServerUrl',  'http://localhost:3000/')
-  .config(['$routeProvider', '$locationProvider', 'ServerUrl', function($routeProvider, $locationProvider, serverUrl) {
+  .config(['$routeProvider', '$locationProvider', 'ServerUrl', 'localStorageServiceProvider',
+      function($routeProvider, $locationProvider, serverUrl, localStorageServiceProvider) {
+
     $locationProvider.html5Mode(true);
+
+    localStorageServiceProvider.setPrefix('AngularSite');
+
     var bookQuery = ['$http', '$route', function($http, $route) { 
             return $http.get(serverUrl + 'books?id=eq.' + $route.current.params.bookNum + '&select=*,authors{*}', {
               headers: { Prefer: 'plurality=singular' }
             });
           }];
+
     var authorsQuery = ['$http', function($http) {
       return $http.get(serverUrl + 'authors', { headers: { Range: '0-50' } });
     }];
+
     $routeProvider
       .when('/', {
         templateUrl: 'main.html',
@@ -65,7 +72,8 @@ angular.module('SiteApp', ['ngRoute'])
       $location.url('/');
     });
   }])
-  .service('SecurityService', ['$http', '$q', 'ServerUrl', function($http, $q, serverUrl) {
+  .service('SecurityService', ['$http', '$q', 'ServerUrl','localStorageService', 
+      function($http, $q, serverUrl, localStorageService) {
     var userName, role, isLoggedIn = false, token;
 
     function processToken(t) {
@@ -100,6 +108,7 @@ angular.module('SiteApp', ['ngRoute'])
           var t = data.data.token;
           if (t) {
             processToken(t);
+            localStorageService.set('Token', t);
           }
         });
     };
@@ -109,9 +118,15 @@ angular.module('SiteApp', ['ngRoute'])
       isLoggedIn = false;
       role = null;
       userName = null;
+      localStorageService.remove('Token');
       defer.resolve();
       return defer.promise;
     };
+
+    var storedToken = localStorageService.get('Token');
+    if (storedToken) {
+      processToken(storedToken);
+    }
 
   }])
   .directive('loginPage', ['SecurityService', function(securityService) {
