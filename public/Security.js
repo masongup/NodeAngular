@@ -5,7 +5,8 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
   }])
   .service('SecurityService', ['$http', '$q', 'ServerUrl','localStorageService', 
       function($http, $q, serverUrl, localStorageService) {
-    var userName, role, isLoggedIn = false, token;
+    var userName, role, isLoggedIn = false, token,
+      service = this;
 
     function processToken(t) {
       var dataPart = t.split('.')[1];
@@ -13,6 +14,7 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
       userName = data.username;
       role = data.role;
       if (!userName || !role) {
+        this.logout();
         return;
       }
       token = t;
@@ -40,6 +42,9 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
           if (t) {
             processToken(t);
             localStorageService.set('Token', t);
+          }
+          else {
+            service.logout();
           }
         });
     };
