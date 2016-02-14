@@ -83,4 +83,26 @@ describe('ControllerTests', function() {
     expect(SecurityService.canEdit.calls.count()).toBe(1);
     $httpBackend.verifyNoOutstandingExpectation();
   }));
+
+  it('AuthorCreateTest', inject(function($controller, $httpBackend) {
+
+    var locationSpy = jasmine.createSpy('url'),
+      authorName = 'Kevin';
+
+    var aec = $controller('AuthorEditController', { $location: { url: locationSpy } });
+
+    aec.author.name = authorName;
+
+    $httpBackend.expect('POST', testServer + 'authors', { 
+      name: authorName
+    }).respond(null);
+
+    aec.save();
+
+    $httpBackend.flush();
+
+    expect(locationSpy.calls.count()).toBe(1);
+    expect(locationSpy.calls.argsFor(0)[0]).toBe('/book');
+    $httpBackend.verifyNoOutstandingExpectation();
+  }));
 });
