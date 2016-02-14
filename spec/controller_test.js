@@ -2,14 +2,7 @@ describe('ControllerTests', function() {
 
   var testServer = 'http://testurl/';
 
-  beforeEach(function() {
-    angular.module('LocalStorageModule', []).provider('localStorageService', function() {
-      this.setPrefix = function() { };
-      this.$get = function() {
-      };
-    });
-  });
-
+  beforeEach(module('LocalStorageModule'));
   beforeEach(module('AppSecurity'));
   beforeEach(module('AppControllers'));
 
