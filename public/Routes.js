@@ -11,10 +11,6 @@ angular.module('AppRoutes', ['ngRoute'])
             });
           }];
 
-    var authorsQuery = ['$http', function($http) {
-      return $http.get(serverUrl + 'authors', { headers: { Range: '0-50' } });
-    }];
-
     $routeProvider
       .when('/', {
         templateUrl: 'main.html',
@@ -26,8 +22,7 @@ angular.module('AppRoutes', ['ngRoute'])
         controller: 'BookEditController',
         controllerAs: 'bec',
         resolve: {
-          book: bookQuery,
-          authors: authorsQuery
+          book: bookQuery
         }
       })
       .when('/book/new', {
@@ -35,8 +30,7 @@ angular.module('AppRoutes', ['ngRoute'])
         controller: 'BookEditController',
         controllerAs: 'bec',
         resolve: { 
-          book: function() { return null; } ,
-          authors: authorsQuery
+          book: function() { return null; }
         }
       })
       .when('/book/:bookNum', {

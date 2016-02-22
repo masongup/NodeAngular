@@ -20,7 +20,8 @@
       </div>
       <div class="form-group">
         <label>Author</label>
-        <select name="author" ng-model="bec.book.authors" ng-options="a.name for a in bec.authors track by a.id" ></select>
+        <input type="text" name="author" class="form-control" ng-model="bec.book.authors.name" 
+          uib-typeahead="a.name for a in bec.getAuthors($viewValue)" typeahead-on-select="bec.authorSelect($item)">
         <a href="/author/new">Create Author</a>
       </div>
       <div class="form-group">

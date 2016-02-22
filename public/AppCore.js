@@ -1,1 +1,1 @@
-angular.module('SiteApp', ['AppRoutes', 'AppSecurity', 'AppControllers'])
+angular.module('SiteApp', ['AppRoutes', 'AppSecurity', 'AppControllers', 'ui.bootstrap'])

@@ -10,10 +10,9 @@ angular.module('AppControllers', ['AppSecurity', 'AppRoutes'])
     this.books = books.data;
     this.canEdit = securityService.canEdit;
   }])
-  .controller('BookEditController', ['book', 'authors', '$http', '$location', 'ServerUrl', 'SecurityService',
-      function(book, authors, $http, $location, serverUrl, securityService) {
+  .controller('BookEditController', ['book', '$http', '$location', 'ServerUrl', 'SecurityService',
+      function(book, $http, $location, serverUrl, securityService) {
       var requestOptions = {};
-      this.authors = authors.data;
 
       if (book) {
         this.book = book.data;
@@ -29,6 +28,17 @@ angular.module('AppControllers', ['AppSecurity', 'AppRoutes'])
       }
 
       requestOptions.data = this.book;
+
+      this.authorSelect = function($item) {
+        this.book.authors = $item;
+      }
+
+      this.getAuthors = function(partialName) {
+        return $http.get(serverUrl + 'authors?name=like.*' + partialName + '*&order=name', { headers: { Range: '0-50' } })
+          .then(function(response) {
+            return response.data;
+          });
+      }
 
       this.save = function() {
         if (!securityService.canEdit()) {
