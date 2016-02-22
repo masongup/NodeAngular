@@ -1,8 +1,14 @@
-<h2>New Author</h2>
-<form name="AuthorEditForm">
-  <div>
-    <label>Name</label>
-    <input type="text" name="name" ng-model="aec.author.name" />
+<div class="row">
+  <h2>New Author</h2>
+</div>
+<div class="row">
+  <div class="col-sm-3">
+    <form name="AuthorEditForm">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" class="form-control" ng-model="aec.author.name" />
+      </div>
+      <button type="button" class="btn btn-default" ng-click="aec.save()">Save</button>
+    </form>
   </div>
-  <button type="button" ng-click="aec.save()">Save</button>
-</form>
+</div>

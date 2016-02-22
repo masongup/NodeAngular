@@ -1,19 +1,21 @@
 <div ng-if="lp.isLoggedIn">
   <div>Welcome, {{lp.userName}}!</div>
   <div>You are a {{lp.role}}</div>
-  <button ng-click="lp.logout()">Log Out</button>
+  <button class="btn btn-default" ng-click="lp.logout()">Log Out</button>
 </div>
 <div ng-if="!lp.isLoggedIn">
   <div>Welcome, guest! Login below:</div>
   <form>
-    <div>
-      <label for="UserName">User Name:</label><input name="UserName" type="text" ng-model="lp.loginUsername"/>
+    <div class="form-group" style="padding-right: 10px">
+      <label for="UserName">User Name:</label>
+      <input name="UserName" type="text" class="form-control" ng-model="lp.loginUsername"/>
+    </div>
+    <div class="form-group" style="padding-right: 10px">
+      <label for="Password">Password:</label>
+      <input name="Password" type="password" class="form-control" ng-model="lp.loginPassword"/>
     </div>
     <div>
-      <label for="Password">Password:</label><input name="Password" type="password" ng-model="lp.loginPassword"/>
-    </div>
-    <div>
-      <button ng-click="lp.login()" type="submit">Log In</button>
+      <button ng-click="lp.login()" class="btn btn-default" type="submit">Log In</button>
     </div>
   </form>
 </div>

@@ -1,11 +1,24 @@
-<h2>All My Books:</h2>
-<div ng-show="blc.canEdit()">
-  <a href="/book/new">New Book</a>
+<div class="row">
+  <div class="col-sm-4">
+    <h2>All My Books:</h2>
+  </div>
 </div>
-<table>
-  <tr><th>Title</th><th>Author</th></tr>
-  <tr ng-repeat="book in blc.books">
-    <td><a ng-href="/book/{{book.id}}">{{book.title}}</a></td>
-    <td>{{book.authors.name}}</td>
-  </tr>
-</table>
+<div class="row">
+  <div class="col-sm-4" ng-show="blc.canEdit()">
+    <a class="h4" href="/book/new">New Book</a>
+  </div>
+</div>
+<div class="row">
+  &nbsp;
+</div>
+<div class="row">
+  <div class="col-sm-6">
+    <table class="table">
+      <tr><th>Title</th><th>Author</th></tr>
+      <tr ng-repeat="book in blc.books">
+        <td><a ng-href="/book/{{book.id}}">{{book.title}}</a></td>
+        <td>{{book.authors.name}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
