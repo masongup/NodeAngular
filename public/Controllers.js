@@ -18,7 +18,8 @@ angular.module('AppControllers', ['AppSecurity', 'AppRoutes'])
         this.book = book.data;
         this.title = 'Edit Book';
         requestOptions.method = 'PATCH';
-        requestOptions.url = serverUrl + 'books?id=eq.' + book.data.id;
+        requestOptions.url = serverUrl + 'books';
+        requestOptions.params = { id: 'eq.' + book.data.id }
       }
       else {
         this.title = 'New Book';
@@ -34,7 +35,10 @@ angular.module('AppControllers', ['AppSecurity', 'AppRoutes'])
       }
 
       this.getAuthors = function(partialName) {
-        return $http.get(serverUrl + 'authors?name=like.*' + partialName + '*&order=name', { headers: { Range: '0-50' } })
+        return $http.get(serverUrl + 'authors', { 
+            headers: { Range: '0-50' },
+            params: { name: 'like.' + partialName + '*', order: 'name' }
+          })
           .then(function(response) {
             return response.data;
           });

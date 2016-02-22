@@ -6,8 +6,9 @@ angular.module('AppRoutes', ['ngRoute'])
     $locationProvider.html5Mode(true);
 
     var bookQuery = ['$http', '$route', function($http, $route) { 
-            return $http.get(serverUrl + 'books?id=eq.' + $route.current.params.bookNum + '&select=*,authors{*}', {
-              headers: { Prefer: 'plurality=singular' }
+            return $http.get(serverUrl + 'books', {
+              headers: { Prefer: 'plurality=singular' },
+              params: { id: 'eq.' + $route.current.params.bookNum, select: '*,authors{*}' }
             });
           }];
 
@@ -47,8 +48,9 @@ angular.module('AppRoutes', ['ngRoute'])
         controllerAs: 'blc',
         resolve: {
           books: ['$http', function($http) {
-            return $http.get(serverUrl + 'books?select=id,title,authors{id,name}&order=id', {
-              headers: { Range: '0-50' }
+            return $http.get(serverUrl + 'books', {
+              headers: { Range: '0-50' },
+              params: { select: 'id,title,authors{id,name}', order: 'id' }
             });
           }]
         }
