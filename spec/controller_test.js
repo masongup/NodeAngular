@@ -24,9 +24,9 @@ describe('ControllerTests', function() {
         bookId = 5,
         locationSpy = jasmine.createSpy('url');
 
-    var bec = $controller('BookEditController', { authors: {}, book: null, $location: { url: locationSpy } });
+    var bec = $controller('BookEditController', { book: null, $location: { url: locationSpy } });
 
-    bec.book.authors = { id: authorId };
+    bec.authorSelect({ id: authorId });
     bec.book.description = bookDesc;
     bec.book.title = bookName;
 
