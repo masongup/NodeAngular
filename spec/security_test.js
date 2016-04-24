@@ -91,6 +91,16 @@ describe('SecurityServiceTests', function() {
     });
     $httpBackend.flush();
   }));
+
+  it('HandlesAuthHeaderRight', inject(function(SecurityService, $http) {
+    SecurityService.login(rightUsername, rightPassword).then(function() {;
+      expect($http.defaults.headers.common.Authorization).toBeDefined();
+      SecurityService.logout().then(function() {
+        expect($http.defaults.headers.common.Authorization).toBeUndefined();
+      });
+    });
+    $httpBackend.flush();
+  }));
 });
 
 describe('SecurityDirectiveTests', function() {

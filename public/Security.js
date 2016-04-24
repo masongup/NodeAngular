@@ -55,6 +55,7 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
       role = null;
       userName = null;
       localStorageService.remove('Token');
+      delete($http.defaults.headers.common.Authorization);
       defer.resolve();
       return defer.promise;
     };
@@ -70,7 +71,7 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
       restrict: 'E',
       templateUrl: 'login.html',
       controllerAs: 'lp',
-      controller: [function() {
+      controller: ['$scope', function($scope) {
         var lp = this;
 
         function init() {
@@ -89,6 +90,17 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
           securityService.logout()
             .then(function() { init() });
         };
+
+        $scope.$on('loginDirectiveRefresh', function() {
+          init();
+        });
       }]
     };
+  }])
+  .run(['$rootScope','SecurityService', function($rootScope, securityService) {
+    $rootScope.$on('$routeChangeError', function() {
+      securityService.logout().then(function() {
+        $rootScope.$broadcast('loginDirectiveRefresh');
+      });
+    });
   }])
