@@ -82,18 +82,14 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
         init();
 
         lp.login = function() {
-          securityService.login(lp.loginUsername, lp.loginPassword)
-            .then(function() { init() });
+          securityService.login(lp.loginUsername, lp.loginPassword).then(init);
         }
 
         lp.logout = function() {
-          securityService.logout()
-            .then(function() { init() });
+          securityService.logout().then(init);
         };
 
-        $scope.$on('loginDirectiveRefresh', function() {
-          init();
-        });
+        $scope.$on('loginDirectiveRefresh', init);
       }]
     };
   }])
