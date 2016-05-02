@@ -15,11 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'bower_components/angular/angular.js',
-      'bower_components/angular-route/angular-route.js',
-      'node_modules/angular-mocks/angular-mocks.js',
-      'public/*.js',
-      'spec/*.js'
+      'test_index.js',
     ],
 
 
@@ -31,8 +27,14 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'test_index.js': ['webpack']
     },
 
+    webpack: require('./webpack.config.js'),
+
+    webpackMiddleware: {
+      noInfo: true
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -41,7 +43,9 @@ module.exports = function(config) {
 
     plugins: [
       'karma-chrome-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      require('webpack'),
+      require('karma-webpack')
     ],
 
     // web server port

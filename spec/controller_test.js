@@ -2,15 +2,15 @@ describe('ControllerTests', function() {
 
   var testServer = 'http://testurl/';
 
-  beforeEach(module('LocalStorageModule'));
-  beforeEach(module('AppSecurity'));
-  beforeEach(module('AppControllers'));
+  beforeEach(window.module('LocalStorageModule'));
+  beforeEach(window.module('AppSecurity'));
+  beforeEach(window.module('AppControllers'));
 
-  beforeEach(module(function($provide) {
+  beforeEach(window.module(function($provide) {
     $provide.constant('ServerUrl', testServer);
   }));
 
-  beforeEach(module(function($provide) {
+  beforeEach(window.module(function($provide) {
     $provide.service('SecurityService', function() {
       this.canEdit = jasmine.createSpy('canEdit').and.returnValue(true);
     });

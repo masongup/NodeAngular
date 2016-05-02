@@ -16,9 +16,9 @@ describe('SecurityServiceTests', function() {
     });
   });
 
-  beforeEach(module('AppSecurity'));
+  beforeEach(window.module('AppSecurity'));
 
-  beforeEach(module(function($provide) {
+  beforeEach(window.module(function($provide) {
     $provide.constant('ServerUrl', testServer);
   }));
 
@@ -105,9 +105,9 @@ describe('SecurityServiceTests', function() {
 
 describe('SecurityDirectiveTests', function() {
 
-  beforeEach(module('AppSecurity'));
+  beforeEach(window.module('AppSecurity'));
 
-  beforeEach(module(function($provide) {
+  beforeEach(window.module(function($provide) {
     $provide.service('SecurityService', function() {
       var simPromise = { then: function(callback) { callback(); } }
       this.isLoggedIn = jasmine.createSpy('isLoggedIn').and.returnValue(false);
@@ -118,10 +118,9 @@ describe('SecurityDirectiveTests', function() {
     });
   }));
 
-  beforeEach(inject(function($compile, $rootScope, $httpBackend) {
-    $httpBackend.expectGET('login.html').respond('<div></div>');
+  beforeEach(inject(function($compile, $rootScope) {
     $compile('<login-page/>')($rootScope);
-    $httpBackend.flush();
+    $rootScope.$digest();
   }));
 
   it('PassesInfoOnLogin', inject(function($rootScope, SecurityService) {

@@ -1,5 +1,11 @@
+var mainHtml = require('./main.html');
+var bookHtml = require('./book.html');
+var bookEditHtml = require('./bookEdit.html');
+var bookListHtml = require('./booklist.html');
+var authorEditHtml = require('./authorEdit.html');
 //All app routes and routing related stuff
-angular.module('AppRoutes', ['ngRoute'])
+
+module.exports = angular.module('AppRoutes', ['ngRoute'])
   .constant('ServerUrl',  'http://localhost:3000/')
   .config(['$routeProvider', '$locationProvider', 'ServerUrl', function($routeProvider, $locationProvider, serverUrl) {
 
@@ -14,12 +20,12 @@ angular.module('AppRoutes', ['ngRoute'])
 
     $routeProvider
       .when('/', {
-        templateUrl: 'main.html',
+        templateUrl: mainHtml,
         controller: 'MainController',
         controllerAs: 'mc'
       })
       .when('/book/:bookNum/edit', {
-        templateUrl: 'bookEdit.html',
+        templateUrl: bookEditHtml,
         controller: 'BookEditController',
         controllerAs: 'bec',
         resolve: {
@@ -27,7 +33,7 @@ angular.module('AppRoutes', ['ngRoute'])
         }
       })
       .when('/book/new', {
-        templateUrl: 'bookEdit.html',
+        templateUrl: bookEditHtml,
         controller: 'BookEditController',
         controllerAs: 'bec',
         resolve: { 
@@ -35,7 +41,7 @@ angular.module('AppRoutes', ['ngRoute'])
         }
       })
       .when('/book/:bookNum', {
-        templateUrl: 'book.html',
+        templateUrl: bookHtml,
         controller: 'BookController',
         controllerAs: 'bc',
         resolve: {
@@ -43,7 +49,7 @@ angular.module('AppRoutes', ['ngRoute'])
         }
       })
       .when('/book', {
-        templateUrl: 'booklist.html',
+        templateUrl: bookListHtml,
         controller: 'BookListController',
         controllerAs: 'blc',
         resolve: {
@@ -56,7 +62,7 @@ angular.module('AppRoutes', ['ngRoute'])
         }
       })
       .when('/author/new', {
-        templateUrl: 'authorEdit.html',
+        templateUrl: authorEditHtml,
         controller: 'AuthorEditController',
         controllerAs: 'aec'
       });
@@ -65,4 +71,4 @@ angular.module('AppRoutes', ['ngRoute'])
     $rootScope.$on('$routeChangeError', function() {
       $location.url('/');
     });
-  }])
+  }]).name;

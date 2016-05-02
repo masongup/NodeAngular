@@ -1,4 +1,4 @@
-angular.module('AppControllers', ['AppSecurity', 'AppRoutes'])
+module.exports = angular.module('AppControllers', [require('./Routes.js'), require('./Security.js')])
   .controller('MainController', [function() {
     this.greeting = 'Hello, World!';
   }])
@@ -70,4 +70,4 @@ angular.module('AppControllers', ['AppSecurity', 'AppRoutes'])
         $location.url('/book');
       });
     };
-  }]);
+  }]).name;

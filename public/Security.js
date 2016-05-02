@@ -1,5 +1,6 @@
+var loginHtml = require('./login.html');
 //Security-related components
-angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
+module.exports = angular.module('AppSecurity', ['LocalStorageModule', require('./Routes.js')])
   .config(['localStorageServiceProvider', function(localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('AngularSite');
   }])
@@ -69,7 +70,7 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
   .directive('loginPage', ['SecurityService', function(securityService) {
     return {
       restrict: 'E',
-      templateUrl: 'login.html',
+      templateUrl: loginHtml,
       controllerAs: 'lp',
       controller: ['$scope', function($scope) {
         var lp = this;
@@ -99,4 +100,4 @@ angular.module('AppSecurity', ['LocalStorageModule', 'AppRoutes'])
         $rootScope.$broadcast('loginDirectiveRefresh');
       });
     });
-  }])
+  }]).name;
