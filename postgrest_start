@@ -1,1 +1,0 @@
-postgrest postgres://authenticator:#+kHh_C_cd4?CNB2@localhost:5432/node-test -a anonymous -m 100 -j aKTh3onScjn6ACxfIDLiET
