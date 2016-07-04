@@ -3,15 +3,30 @@ const { serverUrl } = require('./consts.js');
 const BookInfoBase = require('./BookInfoBase.jsx');
 const { Link, withRouter } = require('react-router');
 const securityService = require('./SecurityService.jsx');
+const AutoSuggest = require('react-autosuggest');
 
 class BookEditBase extends BookInfoBase {
+  constructor(props) {
+    super(props);
+    this.submitForm = this.submitForm.bind(this);
+    this.changeTitle = this.changeTitle.bind(this);
+    this.changeAuthor = this.changeAuthor.bind(this);
+    this.changeDescription = this.changeDescription.bind(this);
+    this.onSuggestionsUpdateRequested = this.onSuggestionsUpdateRequested.bind(this);
+    this.getSuggestionValue = this.getSuggestionValue.bind(this);
+    this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.state = { authors: { name: '' }, suggestions: [], title: '' };
+  }
+
   componentDidMount() {
+    const stateObj = { suggestions: [ { name: 'test' }] };
     if (this.props.params.bookId) {
       super.componentDidMount();
     }
     else {
-      this.setState({ authors: {} });
+      stateObj.authors = { name: '', title: '' };
     }
+    this.setState(stateObj);
   }
 
   changeTitle(event) {
@@ -51,6 +66,25 @@ class BookEditBase extends BookInfoBase {
     }
   }
 
+  onSuggestionsUpdateRequested({ value, reason }) {
+    if (reason === 'type') {
+      fetch(`${serverUrl}authors?name=like.${value}*&order=name`, {
+            headers: new Headers({ Range: '0-50' })
+          })
+        .then(resp => resp.json())
+        .then(respJ => this.setState({ suggestions: respJ }));
+    }
+  }
+
+  getSuggestionValue(suggestion) {
+    debugger;
+    return suggestion.name;
+  }
+
+  renderSuggestion(suggestion) {
+    return <span>{suggestion.name}</span>;
+  }
+
   render() {
     if (this.state) {
       return <div><div class="row">
@@ -70,22 +104,26 @@ class BookEditBase extends BookInfoBase {
       </div>
       <div class="row">
         <div class="col-sm-4">
-          <form onSubmit={this.submitForm.bind(this)}>
+          <form onSubmit={this.submitForm}>
             <div class="form-group">
               <label>Title</label>
               <input type="text" name="title" class="form-control" 
-                value={this.state.title} onChange={this.changeTitle.bind(this)} />
+                value={this.state.title} onChange={this.changeTitle} />
             </div>
             <div class="form-group">
               <label>Author</label>
-              <input type="text" name="author" class="form-control" value={this.state.authors.name} 
-                onChange={this.changeAuthor.bind(this)} />
+              <AutoSuggest suggestions={this.state.suggestions} 
+                onSuggestionsUpdateRequested={this.onSuggestionsUpdateRequested}
+                getSuggestionValue={this.getSuggestionValue}
+                renderSuggestion={this.renderSuggestion}
+                inputProps={{ type: 'text', name: 'author', class: 'form-control', value: this.state.authors.name,
+                  onChange: this.changeAuthor }} />
               <a href="/author/new">Create Author</a>
             </div>
             <div class="form-group">
               <label>Description</label>
               <input type="textarea" name="description" class="form-control" value={this.state.description} 
-                onChange={this.changeDescription.bind(this)} />
+                onChange={this.changeDescription} />
             </div>
             <button type="submit" class="btn btn-default">Save</button>
           </form>
