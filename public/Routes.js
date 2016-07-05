@@ -6,7 +6,8 @@ var authorEditHtml = require('./authorEdit.html');
 //All app routes and routing related stuff
 
 module.exports = angular.module('AppRoutes', ['ngRoute'])
-  .constant('ServerUrl',  'http://localhost:3000/')
+  .constant('ServerUrl', window.serverUrl)
+  .constant('BaseRoute', window.baseRoute)
   .config(['$routeProvider', '$locationProvider', 'ServerUrl', function($routeProvider, $locationProvider, serverUrl) {
 
     $locationProvider.html5Mode(true);

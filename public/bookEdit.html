@@ -5,7 +5,7 @@
 </div>
 <div class="row">
   <div class="col-sm-4">
-    <a ng-show="bec.book.id" ng-href="/book/{{bec.book.id}}">Back to {{bec.book.title}}</a>
+    <a ng-show="bec.book.id" ng-href="{{bec.baseRoute}}book/{{bec.book.id}}">Back to {{bec.book.title}}</a>
   </div>
 </div>
 <div class="row">
@@ -22,7 +22,7 @@
         <label>Author</label>
         <input type="text" name="author" class="form-control" ng-model="bec.book.authors.name" 
           uib-typeahead="a.name for a in bec.getAuthors($viewValue)" typeahead-on-select="bec.authorSelect($item)">
-        <a href="/author/new">Create Author</a>
+        <a ng-href="{{bec.baseRoute}}author/new">Create Author</a>
       </div>
       <div class="form-group">
         <label>Description</label>

@@ -1,18 +1,22 @@
 module.exports = angular.module('AppControllers', [require('./Routes.js'), require('./Security.js')])
-  .controller('MainController', [function() {
+  .controller('MainController', ['BaseRoute', function(baseRoute) {
     this.greeting = 'Hello, World!';
+    this.baseRoute = baseRoute;
   }])
-  .controller('BookController', ['book', 'SecurityService', function(book, securityService) {
+  .controller('BookController', ['book', 'SecurityService', 'BaseRoute', function(book, securityService, baseRoute) {
     this.book = book.data;
     this.canEdit = securityService.canEdit;
+    this.baseRoute = baseRoute;
   }])
-  .controller('BookListController', ['books', 'SecurityService', function(books, securityService) {
+  .controller('BookListController', ['books', 'SecurityService', 'BaseRoute', function(books, securityService, baseRoute) {
     this.books = books.data;
     this.canEdit = securityService.canEdit;
+    this.baseRoute = baseRoute;
   }])
-  .controller('BookEditController', ['book', '$http', '$location', 'ServerUrl', 'SecurityService',
-      function(book, $http, $location, serverUrl, securityService) {
+  .controller('BookEditController', ['book', '$http', '$location', 'ServerUrl', 'SecurityService', 'BaseRoute',
+      function(book, $http, $location, serverUrl, securityService, baseRoute) {
       var requestOptions = {};
+      this.baseRoute = baseRoute;
 
       if (book) {
         this.book = book.data;
@@ -63,8 +67,9 @@ module.exports = angular.module('AppControllers', [require('./Routes.js'), requi
         });
       };
   }])
-  .controller('AuthorEditController', ['$http', '$location', 'ServerUrl', function($http, $location, serverUrl) {
+  .controller('AuthorEditController', ['$http', '$location', 'ServerUrl', 'BaseRoute', function($http, $location, serverUrl, baseRoute) {
     this.author = {};
+    this.baseRoute = baseRoute;
     this.save = function() {
       $http.post(serverUrl + 'authors', this.author).then(function() {
         $location.url('/book');

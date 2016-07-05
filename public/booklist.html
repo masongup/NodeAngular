@@ -5,7 +5,7 @@
 </div>
 <div class="row">
   <div class="col-sm-4" ng-show="blc.canEdit()">
-    <a class="h4" href="/book/new">New Book</a>
+    <a class="h4" ng-href="{{blc.baseRoute}}book/new">New Book</a>
   </div>
 </div>
 <div class="row">
@@ -16,7 +16,7 @@
     <table class="table">
       <tr><th>Title</th><th>Author</th></tr>
       <tr ng-repeat="book in blc.books">
-        <td><a ng-href="/book/{{book.id}}">{{book.title}}</a></td>
+        <td><a ng-href="{{blc.baseRoute}}book/{{book.id}}">{{book.title}}</a></td>
         <td>{{book.authors.name}}</td>
       </tr>
     </table>
