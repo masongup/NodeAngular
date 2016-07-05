@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: ['./public/AppCore.js'],
   output: {
@@ -13,5 +15,15 @@ module.exports = {
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file'},
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml'}
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      },
+      output: {
+        comments: false
+      }
+    })
+  ]
 };
