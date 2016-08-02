@@ -2,10 +2,14 @@ const React = require('react');
 const { Router, Route, Link, browserHistory } = require('react-router');
 const BookEdit = require('./BookEdit.jsx');
 const BookDetails = require('./BookDetails.jsx');
-const securityObj = require('./SecurityService.jsx');
 const BookList = require('./BookList.jsx');
 const LoginForm = require('./LoginForm.jsx');
+const { createStore, applyMiddleware } = require('redux');
 const { Provider } = require('react-redux');
+const thunkMiddleware = require('redux-thunk').default;
+const appReducer = require('./reducers.js');
+
+const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
 class Home extends React.Component {
   render() {
@@ -20,7 +24,7 @@ class Home extends React.Component {
 module.exports = class Base extends React.Component {
   render() {
     return (
-        <Provider store={securityObj.store}>
+        <Provider store={store}>
           <Router history={browserHistory}>
             <Route path="/" component={Home}>
               <Route path="/books" component={BookList}/>

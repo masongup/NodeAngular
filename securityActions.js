@@ -1,29 +1,4 @@
-const { serverUrl } = require('./consts.js');
-const { createStore, applyMiddleware } = require('redux');
-const thunkMiddleware = require('redux-thunk').default;
-
-const initialState = {
-  role: null,
-  userName: null,
-  canEdit: false,
-  token: null
-};
-
-function appReducer(state = initialState, action) {
-  switch (action.type) {
-    case 'SetLoginState':
-      return Object.assign({}, state, {
-        role: action.role,
-        userName: action.userName,
-        canEdit: action.role === 'editor',
-        token: action.token
-      });
-    default:
-      return state;
-  }
-}
-
-const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
+const { serverUrl, loginStateActionType } = require('./consts.js');
 
 function loginAction(username, password) {
   return function(dispatch) {
@@ -48,7 +23,7 @@ function loginAction(username, password) {
 
 function createLoginChangeAction(newRole, userName, token) {
   return {
-      type: 'SetLoginState',
+      type: loginStateActionType,
       role: newRole,
       userName: userName,
       token: token
@@ -70,10 +45,8 @@ function processToken(dispatch, t) {
   dispatch(createLoginChangeAction(data.role, data.username, t));
 }
 
+
 module.exports = { 
-  store,
-  actionCreators: {
-    loginAction,
-    logoutAction
-  }
+  loginAction,
+  logoutAction
 }

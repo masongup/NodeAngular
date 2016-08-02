@@ -1,3 +1,4 @@
 module.exports = {
-  serverUrl: window.serverUrl
+  serverUrl: window.serverUrl,
+  loginStateActionType: Symbol('SetLoginState')
 }

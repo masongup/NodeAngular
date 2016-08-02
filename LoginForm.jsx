@@ -1,5 +1,5 @@
 const React = require('react');
-const { actionCreators } = require('./SecurityService.jsx');
+const securityActions = require('./securityActions.js');
 const { connect } = require('react-redux');
 
 class LoginForm extends React.Component {
@@ -59,4 +59,4 @@ function matchStateToProps(state) {
   return { role: state.role, userName: state.userName };
 }
 
-module.exports = connect(matchStateToProps, actionCreators)(LoginForm);
+module.exports = connect(matchStateToProps, securityActions)(LoginForm);
