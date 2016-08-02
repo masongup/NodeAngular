@@ -1,27 +1,62 @@
 const React = require('react');
-const securityService = require('./SecurityService.jsx');
+const { actionCreators } = require('./SecurityService.jsx');
+const { connect } = require('react-redux');
 
-module.exports = class LoginForm extends React.Component {
-  componentDidMount() {
-    //correctly get saved login status?
-    //this.setState({ loggedIn: false });
+class LoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.changeUsername = this.changeUsername.bind(this);
+    this.changePassword = this.changePassword.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+    this.logout = this.logout.bind(this);
+    this.state = { userName: '', password: '' };
+  }
+
+  submitForm(event) {
+    event.preventDefault();
+    this.props.loginAction(this.state.userName, this.state.password);
+  }
+
+  logout() {
+    this.props.logoutAction();
+  }
+
+  changeUsername(event) {
+    this.setState({ userName: event.target.value });
+  }
+
+  changePassword(event) {
+    this.setState({ password: event.target.value });
   }
 
   render() {
-    if(securityService.getIsLoggedIn()) {
+    if(this.props.role) {
       return <div>
-        Welcome {securityService.getUserName()}! You are a {securityService.getRole()}.
+        Welcome {this.props.userName}! You are a {this.props.role}. <a onClick={this.logout}>Logout</a>
         </div>;
     }
     else {
       return <div>
-        <form>
+        <form onSubmit={this.submitForm}>
           <div>
             <label for="username">Username</label>
-            <input type="text" />
+            <input type="text" name="username" value={this.state.userName} onChange={this.changeUsername} />
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" value={this.state.password} onChange={this.changePassword} />
+          </div>
+          <div>
+            <button type="submit">Log In</button>
           </div>
         </form>
         </div>;
     }
   }
 }
+
+function matchStateToProps(state) {
+  return { role: state.role, userName: state.userName };
+}
+
+module.exports = connect(matchStateToProps, actionCreators)(LoginForm);

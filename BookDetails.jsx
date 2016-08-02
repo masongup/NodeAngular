@@ -1,9 +1,9 @@
 const React = require('react');
-const securityService = require('./SecurityService.jsx');
 const BookInfoBase = require('./BookInfoBase.jsx');
 const { Link } = require('react-router');
+const { connect } = require('react-redux');
 
-module.exports = class BookDetails extends BookInfoBase {
+class BookDetails extends BookInfoBase {
   render() {
     if (this.state) {
       return <div>
@@ -13,7 +13,7 @@ module.exports = class BookDetails extends BookInfoBase {
             <li>Book Author: {this.state.authors.name}</li>
             <li>Book Summary: {this.state.description}</li>
           </ul>
-          { securityService.canEdit() ? <Link to={`/book/${this.state.id}/edit`}>Edit Book</Link> : '' }
+          { this.props.canEdit ? <Link to={`/book/${this.state.id}/edit`}>Edit Book</Link> : '' }
        </div>; 
     }
     else {
@@ -22,3 +22,8 @@ module.exports = class BookDetails extends BookInfoBase {
   }
 }
 
+function matchStateToProps(state) {
+  return { canEdit: state.canEdit };
+}
+
+module.exports = connect(matchStateToProps)(BookDetails);

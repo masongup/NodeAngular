@@ -1,5 +1,6 @@
 const { serverUrl } = require('./consts.js');
-const { createStore } = require('redux');
+const { createStore, applyMiddleware } = require('redux');
+const thunkMiddleware = require('redux-thunk').default;
 
 const initialState = {
   role: null,
@@ -22,12 +23,11 @@ function appReducer(state = initialState, action) {
   }
 }
 
-const store = createStore(appReducer);
+const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
-class SecurityService {
-
-  login(username, password) {
-    return fetch(`${serverUrl}rpc/login`, {
+function loginAction(username, password) {
+  return function(dispatch) {
+    fetch(`${serverUrl}rpc/login`, {
         method: 'POST',
         body: JSON.stringify( { username: username, password: password }),
         headers: new Headers({ 'Content-Type': 'application/json' })
@@ -36,54 +36,44 @@ class SecurityService {
       .then(data => {
         const t = data.token;
         if (t) {
-          this.processToken(t);
+          processToken(dispatch, t);
           //localStorageService.set('Token', t);
         }
         else {
-          this.logout();
+          dispatch(logoutAction());
         }
       });
   }
-
-  createLoginChangeAction(newRole, userName, token) {
-    return {
-        type: 'SetLoginState',
-        role: newRole,
-        userName: userName,
-        token: token
-    };
-  }
-
-  logout() {
-    //localStorageService.remove('Token');
-    store.dispatch(this.createLoginChangeAction());
-  }
-
-  getIsLoggedIn() {
-    return store.getState().role !== null;
-  }
-  canEdit() {
-    return store.getState().role === 'editor';
-  }
-  getUserName() {
-    return store.getState().userName;
-  }
-  getRole() {
-    return store.getState().role;
-  }
-  getToken() {
-    return store.getState().token;
-  }
-
-  processToken(t) {
-    const dataPart = t.split('.')[1];
-    const data = JSON.parse(atob(dataPart));
-    if (!data.username || !data.role) {
-      this.logout();
-      return;
-    }
-    store.dispatch(this.createLoginChangeAction(data.role, data.username, t));
-  }
 }
 
-module.exports = new SecurityService();
+function createLoginChangeAction(newRole, userName, token) {
+  return {
+      type: 'SetLoginState',
+      role: newRole,
+      userName: userName,
+      token: token
+  };
+}
+
+function logoutAction() {
+  //localStorageService.remove('Token');
+  return createLoginChangeAction();
+}
+
+function processToken(dispatch, t) {
+  const dataPart = t.split('.')[1];
+  const data = JSON.parse(atob(dataPart));
+  if (!data.username || !data.role) {
+    this.logout();
+    return;
+  }
+  dispatch(createLoginChangeAction(data.role, data.username, t));
+}
+
+module.exports = { 
+  store,
+  actionCreators: {
+    loginAction,
+    logoutAction
+  }
+}

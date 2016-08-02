@@ -2,8 +2,8 @@ const React = require('react');
 const { serverUrl } = require('./consts.js');
 const BookInfoBase = require('./BookInfoBase.jsx');
 const { Link, withRouter } = require('react-router');
-const securityService = require('./SecurityService.jsx');
 const AutoSuggest = require('react-autosuggest');
+const { connect } = require('react-redux');
 
 class BookEditBase extends BookInfoBase {
   constructor(props) {
@@ -47,7 +47,7 @@ class BookEditBase extends BookInfoBase {
     const fetchOptions = {
       body: JSON.stringify(this.state),
       headers: new Headers({ 
-        'Authorization': `Bearer ${securityService.getToken()}`,
+        'Authorization': `Bearer ${this.state.token}`,
         'Content-Type': 'application/json' 
       })
     };
@@ -136,5 +136,9 @@ class BookEditBase extends BookInfoBase {
   }
 }
 
-module.exports = withRouter(BookEditBase);
+function matchStateToProps(state) {
+  return { token: state.token };
+}
+
+module.exports = connect(matchStateToProps)(withRouter(BookEditBase));
 
