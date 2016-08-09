@@ -118,7 +118,7 @@ class BookEditBase extends BookInfoBase {
                 renderSuggestion={this.renderSuggestion}
                 inputProps={{ type: 'text', name: 'author', class: 'form-control', value: this.state.authors.name,
                   onChange: this.changeAuthor }} />
-              <a href="/author/new">Create Author</a>
+              <Link to={"/author/new"}>Create Author</Link>
             </div>
             <div class="form-group">
               <label>Description</label>

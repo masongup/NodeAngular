@@ -4,6 +4,7 @@ const BookEdit = require('./BookEdit.jsx');
 const BookDetails = require('./BookDetails.jsx');
 const BookList = require('./BookList.jsx');
 const LoginForm = require('./LoginForm.jsx');
+const AuthorEdit = require('./AuthorEdit.jsx');
 const { createStore, applyMiddleware } = require('redux');
 const { Provider } = require('react-redux');
 const thunkMiddleware = require('redux-thunk').default;
@@ -31,6 +32,7 @@ module.exports = class Base extends React.Component {
               <Route path="/book/new" component={BookEdit}/>
               <Route path="/book/:bookId" component={BookDetails}/>
               <Route path="/book/:bookId/edit" component={BookEdit}/>
+              <Route path="/author/new" component={AuthorEdit}/>
             </Route>
           </Router>
         </Provider>);
