@@ -41,13 +41,14 @@ class BookEditBase extends BookInfoBase {
 
   submitForm(e) {
     e.preventDefault();
-    //this.state.author_id = this.state.authors.id;
-    this.state.author_id = 3;
-    delete(this.state.authors);
     const fetchOptions = {
-      body: JSON.stringify(this.state),
+      body: JSON.stringify({ 
+        title: this.state.title,
+        description: this.state.description,
+        author_id: this.state.authors.id
+      }),
       headers: new Headers({ 
-        'Authorization': `Bearer ${this.state.token}`,
+        'Authorization': `Bearer ${this.props.token}`,
         'Content-Type': 'application/json' 
       })
     };
