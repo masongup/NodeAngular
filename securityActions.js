@@ -11,8 +11,9 @@ function loginAction(username, password) {
       .then(data => {
         const t = data.token;
         if (t) {
-          processToken(dispatch, t);
-          //localStorageService.set('Token', t);
+          if (processToken(dispatch, t)) {
+            tryStoreToken(t);
+          }
         }
         else {
           dispatch(logoutAction());
@@ -31,7 +32,7 @@ function createLoginChangeAction(newRole, userName, token) {
 }
 
 function logoutAction() {
-  //localStorageService.remove('Token');
+  tryClearLocalStorageToken();
   return createLoginChangeAction();
 }
 
@@ -40,13 +41,44 @@ function processToken(dispatch, t) {
   const data = JSON.parse(atob(dataPart));
   if (!data.username || !data.role) {
     this.logout();
-    return;
+    return false;
   }
   dispatch(createLoginChangeAction(data.role, data.username, t));
+  return true;
 }
 
+function tryStoreToken(t) {
+  tryLocalStorageTask(s => s.setItem('AppToken', t));
+}
+
+function tryLoginFromLocalStorage() {
+  return function(dispatch) {
+    tryLocalStorageTask(s => {
+      const token = s.getItem('AppToken');
+      if (token) {
+        processToken(dispatch, token);
+      }
+    });
+  };
+}
+
+function tryClearLocalStorageToken() {
+  tryLocalStorageTask(s => s.removeItem('AppToken'));
+}
+
+function tryLocalStorageTask(task) {
+  if (!window.localStorage) {
+    return;
+  }
+  try {
+    task(window.localStorage);
+  }
+  catch (e) {
+  }
+}
 
 module.exports = { 
   loginAction,
-  logoutAction
+  logoutAction,
+  tryLoginFromLocalStorage
 }

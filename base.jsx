@@ -9,8 +9,11 @@ const { createStore, applyMiddleware } = require('redux');
 const { Provider } = require('react-redux');
 const thunkMiddleware = require('redux-thunk').default;
 const appReducer = require('./reducers.js');
+const { tryLoginFromLocalStorage } = require('./securityActions.js');
 
 const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
+
+store.dispatch(tryLoginFromLocalStorage());
 
 class Home extends React.Component {
   render() {
