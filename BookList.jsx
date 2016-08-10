@@ -19,7 +19,7 @@ module.exports = class BookList extends React.Component {
           <div>
             <div><Link to={'/'}>Back to Home</Link></div>
             <div><Link to={'/book/new'}>New Book</Link></div>
-            <table class="table">
+            <table className="table">
               <tbody>
               <tr><th>Title</th><th>Author</th></tr>
               {this.state.items.map(s => <tr key={s.id}>

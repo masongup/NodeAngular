@@ -87,46 +87,52 @@ class BookEditBase extends BookInfoBase {
   }
 
   render() {
+    const suggestProps = {
+      type: 'text',
+      name: 'author',
+      className: 'form-control',
+      value: this.state.authors.name,
+      onChange: this.changeAuthor
+    };
     if (this.state) {
-      return <div><div class="row">
-        <div class="col-sm-4">
+      return <div><div className="row">
+        <div className="col-sm-4">
           <h2>{this.state.title}</h2>
         </div>
       </div>
       { this.state.id ?
-      <div class="row">
-        <div class="col-sm-4">
+      <div className="row">
+        <div className="col-sm-4">
           <Link to={`/book/${this.state.id}`}>Back to {this.state.title}</Link>
         </div>
       </div>
       : '' }
-      <div class="row">
+      <div className="row">
         &nbsp;
       </div>
-      <div class="row">
-        <div class="col-sm-4">
+      <div className="row">
+        <div className="col-sm-4">
           <form onSubmit={this.submitForm}>
-            <div class="form-group">
+            <div className="form-group">
               <label>Title</label>
-              <input type="text" name="title" class="form-control" 
+              <input type="text" name="title" className="form-control" 
                 value={this.state.title} onChange={this.changeTitle} />
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <label>Author</label>
               <AutoSuggest suggestions={this.state.suggestions} 
                 onSuggestionsUpdateRequested={this.onSuggestionsUpdateRequested}
                 getSuggestionValue={this.getSuggestionValue}
                 renderSuggestion={this.renderSuggestion}
-                inputProps={{ type: 'text', name: 'author', class: 'form-control', value: this.state.authors.name,
-                  onChange: this.changeAuthor }} />
+                inputProps={suggestProps} />
               <Link to={"/author/new"}>Create Author</Link>
             </div>
-            <div class="form-group">
+            <div className="form-group">
               <label>Description</label>
-              <input type="textarea" name="description" class="form-control" value={this.state.description} 
+              <input type="textarea" name="description" className="form-control" value={this.state.description} 
                 onChange={this.changeDescription} />
             </div>
-            <button type="submit" class="btn btn-default">Save</button>
+            <button type="submit" className="btn btn-default">Save</button>
           </form>
         </div>
       </div></div>;
