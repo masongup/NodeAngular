@@ -35,7 +35,7 @@ class AuthorEdit extends React.Component {
     return <div>
       <form onSubmit={this.saveAuthor}>
         <div>
-          <label for="AuthorName">Author Name</label>
+          <label htmlFor="AuthorName">Author Name</label>
           <input type="text" name="AuthorName" value={this.state.authorName} onChange={this.changeAuthorName} />
         </div>
         <div>
