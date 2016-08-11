@@ -7,7 +7,7 @@ class BookDetails extends BookInfoBase {
   render() {
     if (this.state) {
       return <div>
-          <div><Link to={'books'}>Back to List</Link></div>
+          <div><Link to={'/books'}>Back to List</Link></div>
           <ul>
             <li>Book Title: {this.state.title}</li>
             <li>Book Author: {this.state.authors.name}</li>

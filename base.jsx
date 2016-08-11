@@ -18,7 +18,7 @@ store.dispatch(tryLoginFromLocalStorage());
 class Home extends React.Component {
   render() {
     return <div><h1>Hello, World!</h1>
-        <p><Link to={"books"}>Book List</Link></p>
+        <p><Link to={"/books"}>Book List</Link></p>
         <div><LoginForm /></div>
         <div>{this.props.children}</div>
       </div>;
