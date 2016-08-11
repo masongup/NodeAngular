@@ -15,17 +15,19 @@ class BookEditBase extends BookInfoBase {
     this.onSuggestionsUpdateRequested = this.onSuggestionsUpdateRequested.bind(this);
     this.getSuggestionValue = this.getSuggestionValue.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
+    this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
     this.state = { authors: { name: '' }, suggestions: [], title: '', description: '' };
   }
 
   componentDidMount() {
-    const stateObj = { suggestions: [ { name: 'test' }] };
+    const stateObj = { };
     if (this.props.params.bookId) {
       super.componentDidMount();
     }
     else {
-      stateObj.authors = { name: '', title: '' };
+      stateObj.authors = { name: '', id: null };
     }
+    stateObj.suggestions = [];
     this.setState(stateObj);
   }
 
@@ -33,7 +35,9 @@ class BookEditBase extends BookInfoBase {
     this.setState({ title: event.target.value });
   }
   changeAuthor(e) {
-    this.setState({ authors: { name: e.target.value } });
+    if (e.target.value) {
+      this.setState({ authors: { name: e.target.value } });
+    }
   }
   changeDescription(e) {
     this.setState({ description: e.target.value });
@@ -67,18 +71,19 @@ class BookEditBase extends BookInfoBase {
     }
   }
 
+  onSuggestionSelected(event, { suggestion }) {
+    this.setState({ authors: suggestion });
+  }
+
   onSuggestionsUpdateRequested({ value, reason }) {
-    if (reason === 'type') {
-      fetch(`${serverUrl}authors?name=like.${value}*&order=name`, {
-            headers: new Headers({ Range: '0-50' })
-          })
-        .then(resp => resp.json())
-        .then(respJ => this.setState({ suggestions: respJ }));
-    }
+    fetch(`${serverUrl}authors?name=like.${value}*&order=name`, {
+          headers: new Headers({ Range: '0-50' })
+        })
+      .then(resp => resp.json())
+      .then(respJ => this.setState({ suggestions: respJ }));
   }
 
   getSuggestionValue(suggestion) {
-    debugger;
     return suggestion.name;
   }
 
@@ -124,6 +129,7 @@ class BookEditBase extends BookInfoBase {
                 onSuggestionsUpdateRequested={this.onSuggestionsUpdateRequested}
                 getSuggestionValue={this.getSuggestionValue}
                 renderSuggestion={this.renderSuggestion}
+                onSuggestionSelected={this.onSuggestionSelected}
                 inputProps={suggestProps} />
               <Link to={"/author/new"}>Create Author</Link>
             </div>
