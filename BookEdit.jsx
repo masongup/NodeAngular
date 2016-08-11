@@ -15,7 +15,7 @@ class BookEditBase extends BookInfoBase {
     this.onSuggestionsUpdateRequested = this.onSuggestionsUpdateRequested.bind(this);
     this.getSuggestionValue = this.getSuggestionValue.bind(this);
     this.renderSuggestion = this.renderSuggestion.bind(this);
-    this.state = { authors: { name: '' }, suggestions: [], title: '' };
+    this.state = { authors: { name: '' }, suggestions: [], title: '', description: '' };
   }
 
   componentDidMount() {
