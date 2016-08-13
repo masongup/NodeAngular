@@ -15,19 +15,22 @@ module.exports = class BookList extends React.Component {
 
   render() {
     if (this.state) {
-      return (
-          <div>
+      return (<div>
             <div><Link to={'/'}>Back to Home</Link></div>
             <div><Link to={'/book/new'}>New Book</Link></div>
-            <table className="table">
-              <tbody>
-              <tr><th>Title</th><th>Author</th></tr>
-              {this.state.items.map(s => <tr key={s.id}>
-                  <td><Link to={`book/${s.id}`}>{s.title}</Link></td>
-                  <td>{s.authors.name}</td>
-                </tr>)}
-              </tbody>
-            </table>
+            <div className="row">
+              <div className="col-sm-6">
+                <table className="table">
+                  <tbody>
+                  <tr><th>Title</th><th>Author</th></tr>
+                  {this.state.items.map(s => <tr key={s.id}>
+                      <td><Link to={`book/${s.id}`}>{s.title}</Link></td>
+                      <td>{s.authors.name}</td>
+                    </tr>)}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>);
     }
     else {

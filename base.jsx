@@ -1,3 +1,5 @@
+require('jquery');
+require('expose?$!expose?jQuery!jquery');
 const React = require('react');
 const { Router, Route, Link, browserHistory } = require('react-router');
 const BookEdit = require('./BookEdit.jsx');
@@ -10,6 +12,7 @@ const { Provider } = require('react-redux');
 const thunkMiddleware = require('redux-thunk').default;
 const appReducer = require('./reducers.js');
 const { tryLoginFromLocalStorage } = require('./securityActions.js');
+require('bootstrap-webpack');
 
 const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
 
@@ -17,10 +20,14 @@ store.dispatch(tryLoginFromLocalStorage());
 
 class Home extends React.Component {
   render() {
-    return <div><h1>Hello, World!</h1>
-        <p><Link to={"/books"}>Book List</Link></p>
-        <div><LoginForm /></div>
-        <div>{this.props.children}</div>
+    return <div><div className="row">
+        <div className="col-sm-4 col-sm-offset-1">
+          <h1>A Book List Site</h1>
+          <p><Link to={"/books"}>Book List</Link></p>
+        </div>
+        <div className="col-sm-2 col-sm-offset-5"><LoginForm /></div>
+      </div>
+      <div style={{"marginLeft": "20px"}}>{this.props.children}</div>
       </div>;
   }
 }
