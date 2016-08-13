@@ -37,7 +37,7 @@ module.exports = class Base extends React.Component {
     return (
         <Provider store={store}>
           <Router history={browserHistory}>
-            <Route path="/" component={Home}>
+            <Route path={baseRoute} component={Home}>
               <Route path="/books" component={BookList}/>
               <Route path="/book/new" component={BookEdit}/>
               <Route path="/book/:bookId" component={BookDetails}/>
