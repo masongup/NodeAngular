@@ -32,22 +32,25 @@ class LoginForm extends React.Component {
   render() {
     if(this.props.role) {
       return <div>
-        Welcome {this.props.userName}! You are a {this.props.role}. <a onClick={this.logout}>Logout</a>
+         <div>Welcome {this.props.userName}!</div>
+         <div>You are a {this.props.role}.</div>
+         <button className="btn btn-default" onClick={this.logout}>Logout</button>
         </div>;
     }
     else {
       return <div>
+        <div>Welome, guest! Login below.</div>
         <form onSubmit={this.submitForm}>
-          <div>
+          <div className="form-group" style={{ paddingRight: '10px' }}>
             <label htmlFor="username">Username</label>
-            <input type="text" name="username" value={this.state.userName} onChange={this.changeUsername} />
+            <input type="text" name="username" className="form-control" value={this.state.userName} onChange={this.changeUsername} />
           </div>
-          <div>
+          <div className="form-group" style={{ paddingRight: '10px' }}>
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" value={this.state.password} onChange={this.changePassword} />
+            <input type="password" name="password" className="form-control" value={this.state.password} onChange={this.changePassword} />
           </div>
           <div>
-            <button type="submit">Log In</button>
+            <button className="btn btn-default" type="submit">Log In</button>
           </div>
         </form>
         </div>;
