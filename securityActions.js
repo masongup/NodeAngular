@@ -9,7 +9,7 @@ function loginAction(username, password) {
       })
       .then(resp => resp.json())
       .then(data => {
-        const t = data.token;
+        const t = data;
         if (t) {
           if (processToken(dispatch, t)) {
             tryStoreToken(t);
