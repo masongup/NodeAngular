@@ -8,7 +8,7 @@ module.exports = class BookList extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${serverUrl}books?select=id,title,authors{id,name}&order=id`)
+    fetch(`${serverUrl}books?select=id,title,authors(id,name)&order=id`)
       .then(response => response.json())
       .then(data => this.setState({ items: data }));
   }
