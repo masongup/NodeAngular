@@ -14,7 +14,7 @@ DECLARE
   retVal text;
 BEGIN
 IF password = 'Password-1' THEN
-  SELECT sign(row_to_json(r), 'aKTh3onScjn6ACxfIDLiET')
+  SELECT sign(row_to_json(r), current_setting('app.jwt_token'))
   FROM
     (SELECT 'editor' AS role,
       username AS username,
@@ -22,7 +22,7 @@ IF password = 'Password-1' THEN
     ) AS r
   INTO retVal;
 ELSIF password = 'Password-2' THEN
-  SELECT sign(row_to_json(r), 'aKTh3onScjn6ACxfIDLiET')
+  SELECT sign(row_to_json(r), current_setting('app.jwt_token'))
   FROM
     (SELECT 'arf_posts' AS role,
       username AS username,
