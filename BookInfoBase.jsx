@@ -7,7 +7,7 @@ module.exports = class BookInfoBase extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${serverUrl}books?id=eq.${this.props.params.bookId}&select=*,authors{*}`, {
+    fetch(`${serverUrl}books?id=eq.${this.props.params.bookId}&select=*,authors(*)`, {
       headers: new Headers({ Accept: 'application/vnd.pgrst.object+json' })
       })
       .then(resp => resp.json())
