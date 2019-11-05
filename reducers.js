@@ -1,4 +1,7 @@
-const { loginStateActionType } = require('./consts.js');
+import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
+
+import { loginStateActionType } from './consts.js'
 
 const initialState = {
   role: null,
@@ -21,4 +24,9 @@ function appReducer(state = initialState, action) {
   }
 }
 
-module.exports = appReducer;
+const createRootReducer = (history) => combineReducers({
+  router: connectRouter(history),
+  loginState: appReducer
+});
+
+export default createRootReducer;

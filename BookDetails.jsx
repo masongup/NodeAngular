@@ -1,7 +1,7 @@
-const React = require('react');
-const BookInfoBase = require('./BookInfoBase.jsx');
-const { Link } = require('react-router');
-const { connect } = require('react-redux');
+import React from 'react';
+import BookInfoBase from './BookInfoBase.jsx';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class BookDetails extends BookInfoBase {
   render() {
@@ -23,7 +23,7 @@ class BookDetails extends BookInfoBase {
 }
 
 function matchStateToProps(state) {
-  return { canEdit: state.canEdit };
+  return { canEdit: state.loginState.canEdit };
 }
 
-module.exports = connect(matchStateToProps)(BookDetails);
+export default connect(matchStateToProps)(BookDetails);

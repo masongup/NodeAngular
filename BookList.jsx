@@ -1,8 +1,8 @@
-const { serverUrl } = require('./consts.js');
-const React = require('react');
-const { Link } = require('react-router');
+import { serverUrl } from './consts.js';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-module.exports = class BookList extends React.Component {
+export default class BookList extends React.Component {
   constructor(props) {
     super(props);
   }

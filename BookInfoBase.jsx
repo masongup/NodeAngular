@@ -1,13 +1,13 @@
-const { serverUrl } = require('./consts.js');
-const React = require('react');
+import { serverUrl } from './consts.js';
+import React from 'react';
 
-module.exports = class BookInfoBase extends React.Component {
+export default class BookInfoBase extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    fetch(`${serverUrl}books?id=eq.${this.props.params.bookId}&select=*,authors(*)`, {
+    fetch(`${serverUrl}books?id=eq.${this.props.match.params.bookId}&select=*,authors(*)`, {
       headers: new Headers({ Accept: 'application/vnd.pgrst.object+json' })
       })
       .then(resp => resp.json())

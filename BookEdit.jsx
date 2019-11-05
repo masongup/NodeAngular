@@ -1,11 +1,11 @@
-const React = require('react');
-const { serverUrl } = require('./consts.js');
-const BookInfoBase = require('./BookInfoBase.jsx');
-const { Link, withRouter } = require('react-router');
-const AutoSuggest = require('react-autosuggest');
-const { connect } = require('react-redux');
+import React from 'react';
+import { serverUrl } from './consts.js';
+import BookInfoBase from './BookInfoBase.jsx';
+import { Link } from 'react-router-dom';
+import AutoSuggest from 'react-autosuggest';
+import { connect } from 'react-redux';
 
-class BookEditBase extends BookInfoBase {
+class BookEdit extends BookInfoBase {
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
@@ -46,19 +46,19 @@ class BookEditBase extends BookInfoBase {
   submitForm(e) {
     e.preventDefault();
     const fetchOptions = {
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         title: this.state.title,
         description: this.state.description,
         author_id: this.state.authors.id
       }),
-      headers: new Headers({ 
+      headers: new Headers({
         'Authorization': `Bearer ${this.props.token}`,
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json'
       })
     };
     if (this.props.params.bookId) {
       fetchOptions.method = 'PATCH';
-      fetch(`${serverUrl}books?id=eq.${this.props.params.bookId}`, fetchOptions)
+      fetch(`${serverUrl}books?id=eq.${this.props.match.params.bookId}`, fetchOptions)
         .then(r => this.props.router.push(`/book/${this.state.id}`));
     }
     else {
@@ -120,12 +120,12 @@ class BookEditBase extends BookInfoBase {
           <form onSubmit={this.submitForm}>
             <div className="form-group">
               <label>Title</label>
-              <input type="text" name="title" className="form-control" 
+              <input type="text" name="title" className="form-control"
                 value={this.state.title} onChange={this.changeTitle} />
             </div>
             <div className="form-group">
               <label>Author</label>
-              <AutoSuggest suggestions={this.state.suggestions} 
+              <AutoSuggest suggestions={this.state.suggestions}
                 onSuggestionsUpdateRequested={this.onSuggestionsUpdateRequested}
                 getSuggestionValue={this.getSuggestionValue}
                 renderSuggestion={this.renderSuggestion}
@@ -135,7 +135,7 @@ class BookEditBase extends BookInfoBase {
             </div>
             <div className="form-group">
               <label>Description</label>
-              <input type="textarea" name="description" className="form-control" value={this.state.description} 
+              <input type="textarea" name="description" className="form-control" value={this.state.description}
                 onChange={this.changeDescription} />
             </div>
             <button type="submit" className="btn btn-default">Save</button>
@@ -150,8 +150,8 @@ class BookEditBase extends BookInfoBase {
 }
 
 function matchStateToProps(state) {
-  return { token: state.token };
+  return { token: state.loginState.token };
 }
 
-module.exports = connect(matchStateToProps)(withRouter(BookEditBase));
+export default connect(matchStateToProps)(BookEdit);
 

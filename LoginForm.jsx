@@ -59,7 +59,7 @@ class LoginForm extends React.Component {
 }
 
 function matchStateToProps(state) {
-  return { role: state.role, userName: state.userName };
+  return { role: state.loginState.role, userName: state.loginState.userName };
 }
 
 module.exports = connect(matchStateToProps, securityActions)(LoginForm);

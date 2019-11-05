@@ -3,25 +3,31 @@
   "private": true,
   "version": "0.0.1",
   "description": "",
-  "engine": "^6.0.0",
+  "engines": {
+    "node": "^12.10"
+  },
   "dependencies": {
-    "react": "^15.0.1",
-    "react-dom": "^15.0.2",
-    "react-router": "^2.4.0",
-    "webpack": "^1.13.0", 
-    "webpack-dev-server": "^1.14.1",
-    "babel-core": "^6.0.0",
-    "babel-loader": "^6.2.4",
-    "babel-preset-react": "^6.5.0",
-    "redux": "^3.5.2",
-    "react-redux": "^4.4.5",
-    "redux-devtools": "^3.2.0",
-    "react-autosuggest": "^4.0.0",
-    "redux-thunk": "^2.1.0"
+    "@babel/core": "^7.6.4",
+    "@babel/preset-react": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "connected-react-router": "*",
+    "react": "^16.11.0",
+    "react-autosuggest": "^9.4.3",
+    "react-dom": "^16.11.0",
+    "react-hot-loader": "^3.0",
+    "react-redux": "^7.0",
+    "react-router-dom": "^4.3",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "webpack": "^4.41.2",
+    "webpack-dev-server": "^3.9.0"
   },
   "scripts": {
     "dev": "webpack-dev-server"
   },
   "author": "Mason Gup",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "webpack-cli": "^3.3.10"
+  }
 }

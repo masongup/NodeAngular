@@ -1,20 +1,24 @@
-require('jquery');
-require('expose?$!expose?jQuery!jquery');
-const React = require('react');
-const { Router, Route, Link, browserHistory } = require('react-router');
-const BookEdit = require('./BookEdit.jsx');
-const BookDetails = require('./BookDetails.jsx');
-const BookList = require('./BookList.jsx');
-const LoginForm = require('./LoginForm.jsx');
-const AuthorEdit = require('./AuthorEdit.jsx');
-const { createStore, applyMiddleware } = require('redux');
-const { Provider } = require('react-redux');
-const thunkMiddleware = require('redux-thunk').default;
-const appReducer = require('./reducers.js');
-const { tryLoginFromLocalStorage } = require('./securityActions.js');
-require('bootstrap-webpack');
+//require('jquery');
+//require('expose?$!expose?jQuery!jquery');
+import React from 'react';
+import { Router, Route, Link, Switch } from 'react-router-dom';
+import BookEdit from './BookEdit.jsx';
+import BookDetails from './BookDetails.jsx';
+import BookList from './BookList.jsx';
+import LoginForm from './LoginForm.jsx';
+import AuthorEdit from './AuthorEdit.jsx';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import createRootReducer from './reducers.js'
+import { tryLoginFromLocalStorage } from './securityActions.js';
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 
-const store = createStore(appReducer, applyMiddleware(thunkMiddleware));
+//require('bootstrap-webpack');
+
+const history = createBrowserHistory();
+const store = createStore(createRootReducer(history), {}, compose(applyMiddleware(thunkMiddleware, routerMiddleware(history))));
 
 store.dispatch(tryLoginFromLocalStorage());
 
@@ -27,24 +31,28 @@ class Home extends React.Component {
         </div>
         <div className="col-sm-2 col-sm-offset-5"><LoginForm /></div>
       </div>
-      <div style={{"marginLeft": "20px"}}>{this.props.children}</div>
+        <div style={{"marginLeft": "20px"}}>
+          <Switch>
+            <Route path="/books" component={BookList}/>
+            <Route path="/book/new" component={BookEdit}/>
+            <Route path="/book/:bookId" component={BookDetails}/>
+            <Route path="/book/:bookId/edit" component={BookEdit}/>
+            <Route path="/author/new" component={AuthorEdit}/>
+          </Switch>
+        </div>
       </div>;
   }
 }
 
-module.exports = class Base extends React.Component {
+class Base extends React.Component {
   render() {
     return (
         <Provider store={store}>
-          <Router history={browserHistory}>
-            <Route path={baseRoute} component={Home}>
-              <Route path="/books" component={BookList}/>
-              <Route path="/book/new" component={BookEdit}/>
-              <Route path="/book/:bookId" component={BookDetails}/>
-              <Route path="/book/:bookId/edit" component={BookEdit}/>
-              <Route path="/author/new" component={AuthorEdit}/>
-            </Route>
-          </Router>
+          <ConnectedRouter history={history}>
+            <Route path={'/'} component={Home}/>
+          </ConnectedRouter>
         </Provider>);
   }
 }
+
+export default Base;
