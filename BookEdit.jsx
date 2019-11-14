@@ -21,7 +21,7 @@ class BookEdit extends BookInfoBase {
 
   componentDidMount() {
     const stateObj = { };
-    if (this.props.params.bookId) {
+    if (this.props.bookId) {
       super.componentDidMount();
     }
     else {
@@ -56,9 +56,9 @@ class BookEdit extends BookInfoBase {
         'Content-Type': 'application/json'
       })
     };
-    if (this.props.params.bookId) {
+    if (this.props.bookId) {
       fetchOptions.method = 'PATCH';
-      fetch(`${serverUrl}books?id=eq.${this.props.match.params.bookId}`, fetchOptions)
+      fetch(`${serverUrl}books?id=eq.${this.props.bookId}`, fetchOptions)
         .then(r => this.props.router.push(`/book/${this.state.id}`));
     }
     else {

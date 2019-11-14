@@ -33,11 +33,11 @@ class Home extends React.Component {
       </div>
         <div style={{"marginLeft": "20px"}}>
           <Switch>
-            <Route path="/books" component={BookList}/>
-            <Route path="/book/new" component={BookEdit}/>
-            <Route path="/book/:bookId" component={BookDetails}/>
-            <Route path="/book/:bookId/edit" component={BookEdit}/>
-            <Route path="/author/new" component={AuthorEdit}/>
+            <Route path="/books" component={() => <BookList />}/>
+            <Route path="/book/new" component={() => <BookEdit />}/>
+            <Route path="/book/:bookId/edit" component={route => <BookEdit bookId={route.match.params.bookId} />}/>
+            <Route path="/book/:bookId" component={route => <BookDetails bookId={route.match.params.bookId} /> }/>
+            <Route path="/author/new" component={() => <AuthorEdit />}/>
           </Switch>
         </div>
       </div>;
